@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Api", "Finan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracke.Data", "src\FinanceTracke.Data\FinanceTracke.Data.csproj", "{1370EF31-6A5B-408C-84F2-668EDAD20D74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Data", "src\FinanceTracke.Data\FinanceTracker.Data.csproj", "{1370EF31-6A5B-408C-84F2-668EDAD20D74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker.Service", "src\FinanceTracker.Service\FinanceTracker.Service.csproj", "{4995E43C-9BED-41D6-A3C4-EE443652C7BD}"
 EndProject

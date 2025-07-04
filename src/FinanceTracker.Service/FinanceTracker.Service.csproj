@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\crs\FinanceTracker.Domain\FinanceTracker.Domain.csproj" />
-    <ProjectReference Include="..\FinanceTracke.Data\FinanceTracke.Data.csproj" />
+    <ProjectReference Include="..\FinanceTracke.Data\FinanceTracker.Data.csproj" />
   </ItemGroup>
 
 </Project>
