@@ -34,16 +34,16 @@ public class UsersController(
         return Ok(result);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update([FromBody] long id, UserForUpdateDto dto)
+    [HttpPut ("{id}")]
+    public async Task<IActionResult> Update([FromQuery] long id,[FromBody] UserForUpdateDto dto)
     {
         var result = await userService.ModifyAsync(id, dto);
 
         return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetId([FromQuery] long id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetId(long id)
     {
         var user = await userService.RetrieveByIdAsync(id);
 

@@ -1,7 +1,9 @@
 ﻿using FinanceTracker.Domain.Commons;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceTracker.Domain.Entities;
 
+[Table("users", Schema ="auth")]
 public class User : Auditable
 {
     public string FirstName { get; set; } 

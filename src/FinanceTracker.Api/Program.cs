@@ -1,4 +1,8 @@
+using FinanceTracke.Data.AppsDbContext;
 using FinanceTracker.Api.Middlewares;
+using FinanceTracker.Api.ServiceExtensions;
+using FinanceTracker.Service.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*builder.Services.AddDbContext<AppDbContext>(option
-        => option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));*/
+builder.Services.AddDbContext<AppDbContext>(option
+        => option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddCustomService();
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 var app = builder.Build();
 
@@ -21,13 +28,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
