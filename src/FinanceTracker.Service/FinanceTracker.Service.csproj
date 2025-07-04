@@ -14,12 +14,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="protobuf-net.Core" Version="3.2.52" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\crs\FinanceTracker.Domain\FinanceTracker.Domain.csproj" />
-    <ProjectReference Include="..\FinanceTracke.Data\FinanceTracke.Data.csproj" />
+    <ProjectReference Include="..\FinanceTracker.Data\FinanceTracker.Data.csproj" />
+    <ProjectReference Include="..\FinanceTracker.Domain\FinanceTracker.Domain.csproj" />
   </ItemGroup>
 
 </Project>
