@@ -9,9 +9,9 @@ public class MapperProfile : Profile
     public MapperProfile()
     {
         // User
-        CreateMap<User, UserForCreationDto>();
+        CreateMap<UserForCreationDto, User>();
         CreateMap<User, UserForResultDto>();
-        CreateMap<User, UserForUpdateDto>();
+        CreateMap<UserForUpdateDto, User>();
         CreateMap<User, UserForVerifyDto>();
         CreateMap<User, UserForLoginDto>();
 

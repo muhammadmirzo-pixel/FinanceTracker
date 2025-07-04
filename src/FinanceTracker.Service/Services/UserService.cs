@@ -16,8 +16,6 @@ public class UserService(
 {
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
-        var email = dto.Email;
-
         var isUserEmailExist = await dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Email == dto.Email);
@@ -62,7 +60,7 @@ public class UserService(
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == id);
 
-        if (existUser is not null)
+        if (existUser is null)
             throw new CustomException(404, "User not found");
 
         await repository.DeleteAsync(id);
