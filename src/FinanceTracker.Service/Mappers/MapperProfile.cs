@@ -9,11 +9,16 @@ public class MapperProfile : Profile
     public MapperProfile()
     {
         // User
-        CreateMap<UserForCreationDto, User>();
-        CreateMap<User, UserForResultDto>();
-        CreateMap<UserForUpdateDto, User>();
-        CreateMap<User, UserForVerifyDto>();
-        CreateMap<User, UserForLoginDto>();
+        CreateMap<UserForCreationDto, User>()
+            .ReverseMap();
+        CreateMap<User, UserForResultDto>()
+            .ReverseMap();
+        CreateMap<UserForUpdateDto, User>()
+            .ReverseMap();
+        CreateMap<User, UserForVerifyDto>()
+            .ReverseMap();
+        CreateMap<User, UserForLoginDto>()
+            .ReverseMap();
 
         // 
     }
