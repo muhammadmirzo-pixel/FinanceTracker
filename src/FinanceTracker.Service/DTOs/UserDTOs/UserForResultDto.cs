@@ -1,7 +1,4 @@
-﻿using FinanceTracker.Domain.Attributes;
-using System.ComponentModel.DataAnnotations;
-
-namespace FinanceTracker.Service.DTOs.UserDTOs;
+﻿namespace FinanceTracker.Service.DTOs.UserDTOs;
 
 public class UserForResultDto
 {

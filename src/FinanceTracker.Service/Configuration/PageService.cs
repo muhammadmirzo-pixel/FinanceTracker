@@ -1,8 +1,6 @@
-﻿using FinanceTracker.Service.Configuration;
+﻿namespace FinanceTracker.Service;
 
-namespace FinanceTracker.Service;
-
-public class PageService(Pagination pagination)
+public class PageService()
 {
     int pageSize;
 

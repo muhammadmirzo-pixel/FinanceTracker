@@ -2,9 +2,7 @@
 using FinanceTracke.Data.AppsDbContext;
 using FinanceTracke.Data.IRepositories;
 using FinanceTracker.Domain.Entities;
-using FinanceTracker.Service.Configuration;
 using FinanceTracker.Service.DTOs.UserDTOs;
-using FinanceTracker.Service.Errors;
 using FinanceTracker.Service.Exceptions;
 using FinanceTracker.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -66,29 +64,42 @@ public class UserService(
 
         if (existUser is not null)
             throw new CustomException(404, "User not found");
-            
+
         await repository.DeleteAsync(id);
 
         return true;
     }
 
-    public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(Pagination page)
+    public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PageService page)
     {
         var users = await repository.SelectAll()
                 .AsNoTracking()
-                .ToPagedList(page)
+                .OrderByDescending(u => u.CreatedAt)
+                .Skip((page.PageNumber - 1) * page.PageSize)
+                .Take(page.PageSize)
                 .ToListAsync();
 
         return mapper.Map<IEnumerable<UserForResultDto>>(users);
     }
 
-    public Task<UserForResultDto> RetrieveByEmailAsync(string email)
+    public async Task<UserForResultDto> RetrieveByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var entry = await repository.SelectByIdAsync(id);
+        if (entry is null)
+            throw new CustomException(404, $"{entry} is not found");
+
+        return mapper.Map<UserForResultDto>(entry);
     }
 
-    public Task<UserForResultDto> RetrieveByIdAsync(long id)
+    public async Task<UserForResultDto> RetrieveByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        var entry = await repository.SelectAll()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.FirstName == name);
+
+        if (entry is null)
+            throw new CustomException(404, $"{name} - User not found");
+
+        return mapper.Map<UserForResultDto>(entry);
     }
 }
