@@ -1,39 +1,43 @@
 using FinanceTracke.Data.AppsDbContext;
+using FinanceTracke.Data.IRepositories;
+using FinanceTracke.Data.Repositories;
 using FinanceTracker.Api.Middlewares;
-using FinanceTracker.Api.ServiceExtensions;
+using FinanceTracker.Service.Interfaces;
 using FinanceTracker.Service.Mappers;
+using FinanceTracker.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(option
         => option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddCustomService();
-builder.Services.AddAutoMapper(typeof(MapperProfile));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperProfile>());
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
 
 app.UseRouting();
+app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 app.Run();

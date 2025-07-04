@@ -34,8 +34,8 @@ public class UsersController(
         return Ok(result);
     }
 
-    [HttpPut ("{id}")]
-    public async Task<IActionResult> Update([FromQuery] long id,[FromBody] UserForUpdateDto dto)
+    [HttpPut]
+    public async Task<IActionResult> Update([FromQuery] long id, [FromBody] UserForUpdateDto dto)
     {
         var result = await userService.ModifyAsync(id, dto);
 
