@@ -5,14 +5,23 @@ using FinanceTracker.Domain.Entities;
 using FinanceTracker.Service.DTOs.UserDTOs;
 using FinanceTracker.Service.Exceptions;
 using FinanceTracker.Service.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace FinanceTracker.Service.Services;
 
 public class UserService(
     IMapper mapper,
     IRepository<User> repository,
-    AppDbContext dbContext) : IUserService
+    AppDbContext dbContext,
+    HttpClient httpClient,
+    IHttpContextAccessor httpContextAccessor,
+    IConfiguration configuration) : IUserService
 {
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
@@ -70,14 +79,34 @@ public class UserService(
 
     public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PageService page)
     {
-        var users = await repository.SelectAll()
+        // 1. Tokenni olish
+        var token = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
+
+        Console.WriteLine($"Token ===> {token}");
+
+        if (string.IsNullOrEmpty(token))
+            throw new CustomException(401, "Authorization token not found.");
+
+        // 2. So‘rov tayyorlash
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{configuration["Scoring:BaseUrl"]}/users");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJpbm4tb3ItcGluZmwiOiIxMjM0NTY3ODkxMDExMSIsImxhbmciOiJ1eiIsImV4cCI6ODk0OTYxOTg5NiwiaXNzIjoiZGV2LmVkY29tLnV6IiwiYXVkIjoiZGV2LmVkY29tLnV6In0.z8bJOepjm6Iyi-q1PMRmtX4dVhXevjKnrj_ZMsalHcc"));
+
+        // 3. So‘rov yuborish
+        var response = await httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        // 4. Natijani o‘qish
+        var content = await response.Content.ReadAsStringAsync();
+        var users = JsonConvert.DeserializeObject<List<UserForResultDto>>(content);
+
+        return users;
+
+        /*var users = await repository.SelectAll()
                 .AsNoTracking()
                 .OrderByDescending(u => u.CreatedAt)
                 .Skip((page.PageNumber - 1) * page.PageSize)
                 .Take(page.PageSize)
-                .ToListAsync();
-
-        return mapper.Map<IEnumerable<UserForResultDto>>(users);
+        return mapper.Map<IEnumerable<UserForResultDto>>(users);  */ .ToListAsync();
     }
 
     public async Task<UserForResultDto> RetrieveByIdAsync(long id)
