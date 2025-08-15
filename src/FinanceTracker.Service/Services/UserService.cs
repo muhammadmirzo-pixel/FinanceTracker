@@ -6,6 +6,10 @@ using FinanceTracker.Service.DTOs.UserDTOs;
 using FinanceTracker.Service.Exceptions;
 using FinanceTracker.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FinanceTracker.Service.Services;
 
@@ -14,7 +18,7 @@ public class UserService(
     IRepository<User> repository,
     AppDbContext dbContext) : IUserService
 {
-    private readonly HttpClien httpClient;
+    private readonly HttpClient httpClient;
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
         var isUserEmailExist = await dbContext.Users
@@ -83,8 +87,11 @@ public class UserService(
         var response = await httpClient.GetAsync("https://stage.api.edcom.uz/gateway/api-auth/users");
         response.EnsureSuccessStatusCode();
         var json = await response.Content.ReadAsStringAsync();
-        return json.Diserialize<List<User>>(json);
+        var content = JsonConvert.DeserializeObject<IEnumerable<UserForResultDto>>(json);
+
+        return mapper.Map<IEnumerable<UserForResultDto>>(content);
     }
+
 
     public async Task<UserForResultDto> RetrieveByIdAsync(long id)
     {
