@@ -14,6 +14,7 @@ public class UserService(
     IRepository<User> repository,
     AppDbContext dbContext) : IUserService
 {
+    private readonly HttpClien httpClient;
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
         var isUserEmailExist = await dbContext.Users
@@ -70,14 +71,19 @@ public class UserService(
 
     public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PageService page)
     {
-        var users = await repository.SelectAll()
+        /*var users = await repository.SelectAll()
                 .AsNoTracking()
                 .OrderByDescending(u => u.CreatedAt)
                 .Skip((page.PageNumber - 1) * page.PageSize)
                 .Take(page.PageSize)
                 .ToListAsync();
 
-        return mapper.Map<IEnumerable<UserForResultDto>>(users);
+        return mapper.Map<IEnumerable<UserForResultDto>>(users);*/
+
+        var response = await httpClient.GetAsync("https://stage.api.edcom.uz/gateway/api-auth/users");
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        return json.Diserialize<List<User>>(json);
     }
 
     public async Task<UserForResultDto> RetrieveByIdAsync(long id)
