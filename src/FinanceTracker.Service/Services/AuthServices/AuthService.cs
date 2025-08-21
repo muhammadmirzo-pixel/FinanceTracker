@@ -11,7 +11,7 @@ public class AuthService(
 {
     public async Task<LoginForResultDto> AuthenticateAsync(LoginDto loginDto)
     {
-        var foundUser = await userService.
+        // var foundUser = await userService.
         throw new NotImplementedException();
     }
 }
