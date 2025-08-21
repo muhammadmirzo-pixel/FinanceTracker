@@ -2,9 +2,9 @@ using FinanceTracke.Data.AppsDbContext;
 using FinanceTracke.Data.IRepositories;
 using FinanceTracke.Data.Repositories;
 using FinanceTracker.Api.Middlewares;
-using FinanceTracker.Service.Interfaces;
 using FinanceTracker.Service.Mappers;
-using FinanceTracker.Service.Services;
+using FinanceTracker.Service.Services.UserService;
+using FinanceTracker.Service.Services.UserServices.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

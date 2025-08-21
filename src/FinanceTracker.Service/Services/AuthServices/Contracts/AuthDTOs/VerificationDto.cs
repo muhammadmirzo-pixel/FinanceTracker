@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.Service.DTOs.AuthDTOs;
+﻿namespace FinanceTracker.Service.Services.AuthServices.Contracts.AuthDTOs;
 
 public class VerificationDto
 {

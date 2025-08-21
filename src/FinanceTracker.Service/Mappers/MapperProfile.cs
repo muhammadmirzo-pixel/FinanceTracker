@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceTracker.Domain.Entities;
-using FinanceTracker.Service.DTOs.UserDTOs;
+using FinanceTracker.Service.Services.UserServices.Contracts.UserDTOs;
 
 namespace FinanceTracker.Service.Mappers;
 

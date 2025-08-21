@@ -2,16 +2,17 @@
 using FinanceTracke.Data.AppsDbContext;
 using FinanceTracke.Data.IRepositories;
 using FinanceTracker.Domain.Entities;
-using FinanceTracker.Service.DTOs.UserDTOs;
+using FinanceTracker.Service.Errors;
 using FinanceTracker.Service.Exceptions;
-using FinanceTracker.Service.Interfaces;
+using FinanceTracker.Service.Services.UserServices.Contracts;
+using FinanceTracker.Service.Services.UserServices.Contracts.UserDTOs;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace FinanceTracker.Service.Services;
+namespace FinanceTracker.Service.Services.UserService;
 
 public class UserService(
     IMapper mapper,
@@ -41,6 +42,15 @@ public class UserService(
         var createdUser = await repository.InsertAsync(mappedUser);
 
         return mapper.Map<UserForResultDto>(createdUser);
+    }
+
+    public async Task<UserForResultDto> GetByEmailAsync(string email)
+    {
+        var enteredEmail = await repository.SelectByEmailAsync(email);
+        if (enteredEmail is null)
+            throw new CustomException(404, "Email not found.");
+
+        return mapper.Map<UserForResultDto>(enteredEmail);
     }
 
     public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)

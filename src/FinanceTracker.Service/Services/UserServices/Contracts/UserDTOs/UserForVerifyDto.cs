@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FinanceTracker.Service.DTOs.UserDTOs;
-
-public class UserForLoginDto
+namespace FinanceTracker.Service.Services.UserServices.Contracts.UserDTOs;
+public class UserForVerifyDto
 {
     [Required]
     [EmailAddress]
     public string Email { get; set; }
-    
+
     [Required]
-    public string Password { get; set; } 
+    public int Code { get; set; }
 }
