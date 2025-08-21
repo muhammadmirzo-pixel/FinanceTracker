@@ -1,7 +1,7 @@
 ﻿using FinanceTracker.Service.Configuration;
-using FinanceTracker.Service.DTOs.UserDTOs;
+using FinanceTracker.Service.Services.UserServices.Contracts.UserDTOs;
 
-namespace FinanceTracker.Service.Interfaces;
+namespace FinanceTracker.Service.Services.UserServices.Contracts;
 
 public  interface IUserService
 {
@@ -11,4 +11,5 @@ public  interface IUserService
     Task<UserForResultDto> AddAsync(UserForCreationDto dto);
     Task<UserForResultDto> RetrieveByNameAsync(string name);
     Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto);
+    Task<UserForResultDto> GetByEmailAsync(string email);
 }

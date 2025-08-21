@@ -43,4 +43,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
 
         return entry.Entity;
     }
+
+    public async Task<TEntity> SelectByEmailAsync(string email)
+        => await this.dbSet.FindAsync(email);
+        
 }

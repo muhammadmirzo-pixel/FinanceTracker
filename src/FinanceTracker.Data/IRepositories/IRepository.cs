@@ -9,4 +9,5 @@ public interface IRepository<TEntity> where TEntity : Auditable
     IQueryable<TEntity> SelectAll ();
     Task<TEntity> UpdateAsync (TEntity entity);
     Task<TEntity> SelectByIdAsync (long id);
+    Task<TEntity> SelectByEmailAsync(string email);
 }

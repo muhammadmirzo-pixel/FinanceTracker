@@ -1,7 +1,7 @@
 ﻿using FinanceTracke.Data.IRepositories;
 using FinanceTracke.Data.Repositories;
-using FinanceTracker.Service.Interfaces;
-using FinanceTracker.Service.Services;
+using FinanceTracker.Service.Services.UserService;
+using FinanceTracker.Service.Services.UserServices.Contracts;
 
 namespace FinanceTracker.Api.ServiceExtensions;
 

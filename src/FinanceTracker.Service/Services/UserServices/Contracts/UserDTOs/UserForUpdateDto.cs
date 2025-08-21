@@ -1,7 +1,7 @@
 ﻿using FinanceTracker.Domain.Attributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceTracker.Service.DTOs.UserDTOs;
+namespace FinanceTracker.Service.Services.UserServices.Contracts.UserDTOs;
 
 public class UserForUpdateDto
 {
@@ -18,6 +18,6 @@ public class UserForUpdateDto
     public string Email { get; set; }
 
     [Required]
-    [LocalPhoneAttribute]
+    [LocalPhone]
     public string PhoneNumber { get; set; }
 }
